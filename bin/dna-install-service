@@ -1,6 +1,10 @@
 #!/bin/bash
 
-((!$#)) && echo usage: dna-install-service user domain appname port && exit 1
+if [ $# -ne 4 ]
+  then
+    echo usage: dna-install-service user domain appname port
+    exit 1
+fi
 
 user=$1
 domain=$2
@@ -10,6 +14,7 @@ port=$4
 workingDirectory="/home/$user/web/$domain/aspnetcore/$appname"
 serviceName=kestrel-$domain-$appname.service
 
+echo "Creating service: $serviceName"
 . ./lib/mo
 cat << EOF | mo > /etc/systemd/system/$serviceName
 [Unit]
@@ -30,4 +35,5 @@ Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 WantedBy=multi-user.target
 EOF
 
-echo "Created service: $serviceName"
+systemctl enable $serviceName
+systemctl start $serviceName

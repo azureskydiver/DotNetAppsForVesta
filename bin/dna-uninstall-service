@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -ne 4 ]
+  then
+    echo usage: dna-uninstall-service user domain appname port
+    exit 1
+fi
+
+user=$1
+domain=$2
+appname=$3
+port=$4
+
+serviceName=kestrel-$domain-$appname.service
+
+systemctl stop $serviceName
+systemctl disable $serviceName
