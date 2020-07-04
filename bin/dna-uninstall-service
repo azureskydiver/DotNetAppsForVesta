@@ -15,3 +15,6 @@ serviceName=kestrel-$domain-$appname.service
 
 systemctl stop $serviceName
 systemctl disable $serviceName
+
+echo echo "Deleting service: $serviceName"
+rm /etc/systemd/system/$serviceName
